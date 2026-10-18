@@ -9,18 +9,21 @@
   </a>
   <a href="https://github.com/tecnolgd/TermiFlow/graphs/contributors"><img src="https://img.shields.io/github/contributors/tecnolgd/TermiFlow?color=1a1a1a&style=flat-square" alt="Contributors Badge">
   </a>
-  <a href = "#documentation"><img src = "https://img.shields.io/badge/docs-available-1a1a1a?style=flat-square" alt = "Docs"></a>
 
 </div>
 
-> **TermiFlow** is a command-driven terminal tool that lets users **launch applications, execute shortcuts, track command history**, and **much more** — all from a single, fast, keyboard-centric interface.
+<p align = "center">TermiFlow is a command-driven terminal tool that lets users launch applications, execute shortcuts, track command history, and much more — all from a single, fast, keyboard-centric interface.
+</p>
+<hr>
 
-Think of it as:
-- a ***minimal launcher***
-- a ***command hub***
-- a ***foundation for terminal automation***
+<div align = "center">
 
-*No GUI. No Alt-Tabbing. Only commands.*
+  <a href = "#quick-run">Quick Run</a> •
+  <a href = "#feature-overview"> Feature Overview</a> •
+  <a href = "#documentation"> Documentation</a> •
+  <a href = "#support-this-project"> Support this project</a>
+  
+</div>
 
 
 ## Sample Menu
@@ -102,7 +105,7 @@ cd TermiFlow
     x86_64-w64-mingw32-g++ src/main.cpp src/core/*.cpp src/features/*.cpp -o termiflow.exe -I./include -static -static-libgcc -static-libstdc++
     ```
 
-## Running the application
+### Running the application
 
 After building, run the application:
 
@@ -213,9 +216,6 @@ TermiFlow follows **clean architecture** principles with clear separation betwee
 > - **Code comments** in source files for implementation details
 > - **Header files** in `include/` directory for function details
 
-## License
-[MIT License](LICENSE.md)
-
 ## Future Upgrades
 
 - **Cross-platform** support (Linux, macOS)
@@ -224,8 +224,6 @@ TermiFlow follows **clean architecture** principles with clear separation betwee
 - **Scripting** and **automation** features 
 - **Config Management** for tool customisation   
 - **More** themes and customization options
-
-## [Contributing](CONTRIBUTING.md)
 
 ## Contributors
 A huge thanks to the developers contributing to TermiFlow.
@@ -243,7 +241,5 @@ If TermiFlow has positively impacted your workflow, consider:
 - Sharing feedback and suggestions
 - [Contributing](CONTRIBUTING.md) code or documentation
 
-## Author & License
-
-- **Author:** tecnolgd   
-- **License:** [MIT License](LICENSE.md)
+## License
+MIT
