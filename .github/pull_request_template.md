@@ -2,7 +2,7 @@
 
 - [Briefly describe the core features, fixes, or refactoring included in this pull request]
 
-## Relates Issue
+## Related Issue
 
 - Fixes/Closes #[issue number] or 'None' if not applicable
 - Other references, if any
