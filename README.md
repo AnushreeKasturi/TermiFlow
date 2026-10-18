@@ -116,7 +116,7 @@ After building, run the application:
 ./build/termiflow.exe   # on Windows
 ```
 
-## Features Overview
+## Feature Overview
 
 | Feature | Description | Status |
 |---------|-------------|--------|
