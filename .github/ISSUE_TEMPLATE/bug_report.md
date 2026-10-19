@@ -18,5 +18,5 @@ A clear and concise description of what the bug is.
 
 ### Environment
 
-- OS: [e.g. Windows WSL / Linux]
-- Compiler Version [e.g. g++ 13.0]
+- OS: [e.g. Windows / WSL / Linux]
+- Compiler Version: [e.g. g++ 13.0]
