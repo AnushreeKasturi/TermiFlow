@@ -7,6 +7,7 @@ CXX_MINGW = x86_64-w64-mingw32-g++
 # Directories
 SRC_DIR = src
 BUILD_DIR = build
+BUILD_DIR_STAMP = $(BUILD_DIR)/.dir
 INCLUDE_DIR = include
 CORE_DIR = $(SRC_DIR)/core
 FEATURES_DIR = $(SRC_DIR)/features
@@ -64,17 +65,18 @@ help:
 	@echo "  make clean rebuild     - Clean and rebuild"
 
 # Create build directory
-$(BUILD_DIR):
+$(BUILD_DIR_STAMP):
 	@mkdir -p $(BUILD_DIR)
+	@touch $(BUILD_DIR_STAMP)
 
 # Linux build target
-linux: $(BUILD_DIR)
+linux: $(BUILD_DIR_STAMP)
 	@echo "Building TermiFlow for Linux..."
 	$(CXX) $(LINUX_CXXFLAGS) $(ALL_SRCS) -o $(LINUX_OUTPUT)
 	@echo "✓ Build complete: $(LINUX_OUTPUT)"
 
 # Windows build target
-windows: $(BUILD_DIR)
+windows: $(BUILD_DIR_STAMP)
 	@echo "Building TermiFlow for Windows..."
 	$(CXX_MINGW) $(WINDOWS_CXXFLAGS) $(ALL_SRCS) -o $(WINDOWS_OUTPUT)
 	@echo "✓ Build complete: $(WINDOWS_OUTPUT)"
@@ -92,7 +94,7 @@ rebuild: clean build
 	@echo "✓ Rebuild complete"
 
 # Test target - uses native C++ test framework (no external dependencies)
-test: $(BUILD_DIR)
+test: $(BUILD_DIR_STAMP)
 	@echo "Building unit tests..."
 	$(CXX) $(LINUX_CXXFLAGS) $(CORE_SRCS) $(FEATURES_SRCS) $(TEST_SRCS) $(TEST_MAIN) -o $(TEST_OUTPUT)
 	@echo "✓ Test build complete"
