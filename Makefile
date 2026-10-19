@@ -32,8 +32,13 @@ TEST_MAIN = $(TEST_DIR)/main_test.cpp
 TEST_SRCS = $(filter-out $(TEST_MAIN),$(wildcard $(TEST_DIR)/*_test.cpp))
 TEST_OUTPUT = $(BUILD_DIR)/test_runner
 
+# Benchmark configuration
+BENCHMARK_SRC = benchmarks/benchmark.cpp
+BENCHMARK_OUTPUT = $(BUILD_DIR)/benchmark_runner
+BENCHMARK_CXXFLAGS = -std=c++17 -O3 -DNDEBUG -I./$(INCLUDE_DIR)
+
 # Phony targets
-.PHONY: all help build linux windows clean rebuild run test
+.PHONY: all help build linux windows clean rebuild run test benchmark
 
 # Default target
 all: linux
@@ -46,6 +51,7 @@ help:
 	@echo "  make linux             - Build Linux executable (default)"
 	@echo "  make windows           - Build Windows executable (requires MinGW)"
 	@echo "  make test              - Build and run unit tests (native framework)"
+	@echo "  make benchmark         - Build and run performance benchmarks"
 	@echo "  make run               - Build and run Linux executable"
 	@echo "  make rebuild           - Clean and rebuild for current platform"
 	@echo "  make clean             - Remove build artifacts"
@@ -93,6 +99,14 @@ test: $(BUILD_DIR)
 	@echo ""
 	@echo "Running tests..."
 	./$(TEST_OUTPUT)
+
+# Benchmark target - optimized build, separate from unit tests
+benchmark:
+	@mkdir -p $(BUILD_DIR)
+	@echo "Building optimized benchmarks..."
+	$(CXX) $(BENCHMARK_CXXFLAGS) $(BENCHMARK_SRC) $(CORE_DIR)/command_parser.cpp $(CORE_DIR)/config_service.cpp -o $(BENCHMARK_OUTPUT)
+	@echo "Running benchmarks..."
+	./$(BENCHMARK_OUTPUT) $(BENCHMARK_ARGS)
 
 # Clean build artifacts
 clean:
