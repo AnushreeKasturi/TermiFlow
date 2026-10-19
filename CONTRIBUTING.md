@@ -33,7 +33,7 @@ To keep the codebase stable and ensure your time isn't wasted, all contributors 
 ### 2. Wait to be Officially Assigned
 
 * **Do not start working until a maintainer officially assigns the issue to you.**
-* We will not accept PRs from unassigned contributors. This prevents multiple people from accidentally working on the exact same file at the same time.
+* We will not accept PRs from unassigned contributors(Such PRs would be closed automatically). This prevents multiple people from accidentally working on the exact same file at the same time.
 
 ### 3. One Branch, One Pull Request
 

@@ -1,0 +1,41 @@
+name: Enforce Assignment Policy
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-assignee:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is from owner
+        if: github.actor == github.repository_owner
+        run: echo "PR opened by repository owner. Skipping check."
+
+      - name: Check PR Assignment
+        if: github.actor != github.repository_owner
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const assignees = pr.assignees;
+            
+            console.log(`PR Author: ${pr.user.login}`);
+            console.log(`Assignees count: ${assignees.length}`);
+
+            // If no one is assigned, comment and close the PR
+            if (assignees.length === 0) {
+              await github.rest.issues.createComment({
+                issue_number: pr.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Hello! Thank you for your contribution. As per the repository's guidelines, please ensure an issue is discussed and you are assigned to it before opening a pull request. Closing this PR for now. Feel free to claim an issue properly next time."
+              });
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                state: 'closed'
+              });
+            }
