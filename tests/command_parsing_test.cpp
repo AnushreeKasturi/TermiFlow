@@ -1,18 +1,7 @@
 #include <string>
 #include <vector>
-#include <sstream>
+#include "command_parser.hpp"
 #include "test_framework.hpp"
-
-// Helper function for tokenizing
-std::vector<std::string> tokenizeCommand(const std::string& input) {
-    std::vector<std::string> tokens;
-    std::stringstream ss(input);
-    std::string token;
-    while (ss >> token) {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
 
 // Test basic command tokenization
 TEST(Command_TokenizesSimpleCommand) {

@@ -7,6 +7,7 @@ CXX_MINGW = x86_64-w64-mingw32-g++
 # Directories
 SRC_DIR = src
 BUILD_DIR = build
+BUILD_DIR_STAMP = $(BUILD_DIR)/.dir
 INCLUDE_DIR = include
 CORE_DIR = $(SRC_DIR)/core
 FEATURES_DIR = $(SRC_DIR)/features
@@ -32,8 +33,13 @@ TEST_MAIN = $(TEST_DIR)/main_test.cpp
 TEST_SRCS = $(filter-out $(TEST_MAIN),$(wildcard $(TEST_DIR)/*_test.cpp))
 TEST_OUTPUT = $(BUILD_DIR)/test_runner
 
+# Benchmark configuration
+BENCHMARK_SRC = benchmarks/benchmark.cpp
+BENCHMARK_OUTPUT = $(BUILD_DIR)/benchmark_runner
+BENCHMARK_CXXFLAGS = -std=c++17 -O3 -DNDEBUG -I./$(INCLUDE_DIR)
+
 # Phony targets
-.PHONY: all help build linux windows clean rebuild run test
+.PHONY: all help build linux windows clean rebuild run test benchmark
 
 # Default target
 all: linux
@@ -46,6 +52,7 @@ help:
 	@echo "  make linux             - Build Linux executable (default)"
 	@echo "  make windows           - Build Windows executable (requires MinGW)"
 	@echo "  make test              - Build and run unit tests (native framework)"
+	@echo "  make benchmark         - Build and run performance benchmarks"
 	@echo "  make run               - Build and run Linux executable"
 	@echo "  make rebuild           - Clean and rebuild for current platform"
 	@echo "  make clean             - Remove build artifacts"
@@ -58,17 +65,18 @@ help:
 	@echo "  make clean rebuild     - Clean and rebuild"
 
 # Create build directory
-$(BUILD_DIR):
+$(BUILD_DIR_STAMP):
 	@mkdir -p $(BUILD_DIR)
+	@touch $(BUILD_DIR_STAMP)
 
 # Linux build target
-linux: $(BUILD_DIR)
+linux: $(BUILD_DIR_STAMP)
 	@echo "Building TermiFlow for Linux..."
 	$(CXX) $(LINUX_CXXFLAGS) $(ALL_SRCS) -o $(LINUX_OUTPUT)
 	@echo "✓ Build complete: $(LINUX_OUTPUT)"
 
 # Windows build target
-windows: $(BUILD_DIR)
+windows: $(BUILD_DIR_STAMP)
 	@echo "Building TermiFlow for Windows..."
 	$(CXX_MINGW) $(WINDOWS_CXXFLAGS) $(ALL_SRCS) -o $(WINDOWS_OUTPUT)
 	@echo "✓ Build complete: $(WINDOWS_OUTPUT)"
@@ -86,13 +94,21 @@ rebuild: clean build
 	@echo "✓ Rebuild complete"
 
 # Test target - uses native C++ test framework (no external dependencies)
-test: $(BUILD_DIR)
+test: $(BUILD_DIR_STAMP)
 	@echo "Building unit tests..."
 	$(CXX) $(LINUX_CXXFLAGS) $(CORE_SRCS) $(FEATURES_SRCS) $(TEST_SRCS) $(TEST_MAIN) -o $(TEST_OUTPUT)
 	@echo "✓ Test build complete"
 	@echo ""
 	@echo "Running tests..."
 	./$(TEST_OUTPUT)
+
+# Benchmark target - optimized build, separate from unit tests
+benchmark:
+	@mkdir -p $(BUILD_DIR)
+	@echo "Building optimized benchmarks..."
+	$(CXX) $(BENCHMARK_CXXFLAGS) $(BENCHMARK_SRC) $(CORE_DIR)/command_parser.cpp $(CORE_DIR)/config_service.cpp -o $(BENCHMARK_OUTPUT)
+	@echo "Running benchmarks..."
+	./$(BENCHMARK_OUTPUT) $(BENCHMARK_ARGS)
 
 # Clean build artifacts
 clean:
